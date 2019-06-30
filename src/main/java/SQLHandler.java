@@ -9,7 +9,6 @@ public class SQLHandler {
     private static final String login = "geek";
     private static final String password = "geek";
     private static Connection connection;
-    private static Statement statement;
     private static PreparedStatement preparedStatement;
     private static ResultSet resultSet;
 
@@ -38,7 +37,7 @@ public class SQLHandler {
     public void disconnectFromDB() {
         try {
             connection.close();
-            statement.close();
+            preparedStatement.close();
             resultSet.close();
             System.out.println("disconnection done");
         } catch (SQLException e) {
@@ -47,12 +46,31 @@ public class SQLHandler {
         }
     }
 
+    public void createTableUsers() {
+        String query1 = "DROP TABLE IF EXISTS test_db.users;";
+        String query2 = "CREATE TABLE IF NOT EXISTS test_db.users (" +
+                "id int(11) NOT NULL AUTO_INCREMENT, " +
+                "first_name varchar(45) NOT NULL, " +
+                "last_name varchar(45) NOT NULL, " +
+                "PRIMARY KEY (id), " +
+                "UNIQUE KEY fist_name_UNIQUE (first_name)) " +
+                "ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        try {
+            preparedStatement = connection.prepareStatement(query1);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement(query2);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void selectAllRows() {
         String query = "SELECT id, first_name, last_name FROM USERS";
 
         try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 String firstName = resultSet.getString(2);
@@ -64,10 +82,13 @@ public class SQLHandler {
         }
     }
 
-    public void insertSpecificUser() {
-        String query = "INSERT INTO test_db.users (first_name, last_name) VALUES ('jack', 'nicholson')";
+    public void insertSpecificUser(String firstName, String lastName) {
+        String query = "INSERT INTO test_db.users (first_name, last_name) VALUES (?, ?)";
         try {
-            statement.executeUpdate(query);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.executeUpdate();
         }catch (SQLException e) {
             e.printStackTrace();
         }

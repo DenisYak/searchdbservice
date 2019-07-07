@@ -10,7 +10,7 @@ public class Main {
 
         sqlHandler.createTableUsers();
         sqlHandler.insertSpecificUser("bob", "marley");
-        sqlHandler.insertSpecificUser("rob", "zombie");
+        sqlHandler.insertSpecificUser("rob", "thomas");
         sqlHandler.insertSpecificUser("james", "hetfield");
 
 //        sqlHandler.insertAnyUser();

@@ -10,7 +10,7 @@ public class SQLHandlerTestJUnit {
     private SQLHandler sqlHandler = new SQLHandler();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         sqlHandler.connectToDB();
         sqlHandler.createTableUsers();
         sqlHandler.insertSpecificUser("bob", "marley");
@@ -19,7 +19,7 @@ public class SQLHandlerTestJUnit {
     }
 
     @Test
-    public void searchByFirstName() throws SQLException{
+    public void searchByFirstName() {
         int expected = sqlHandler.searchByFirstName("bob");
         int actual = 1;
         Assert.assertEquals(expected, actual);
@@ -34,7 +34,7 @@ public class SQLHandlerTestJUnit {
     }
 
     @After
-    public void tearDown() throws SQLException {
+    public void tearDown() {
         sqlHandler.disconnectFromDB();
     }
 }

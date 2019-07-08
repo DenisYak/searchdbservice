@@ -17,7 +17,6 @@ public class Main {
 //        sqlHandler.searchByFirstName();
 //        sqlHandler.updateLastNameByFirstName();
 
-        sqlHandler.selectAllRows();
 
         sqlHandler.disconnectFromDB();
 

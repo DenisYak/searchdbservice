@@ -64,38 +64,6 @@ public class SQLHandler {
         }
     }
 
-    public void selectAllRows() {
-        String query = "SELECT id, first_name, last_name FROM USERS";
-
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt(1);
-                String firstName = resultSet.getString(2);
-                String lastName = resultSet.getString(3);
-                System.out.println("id: " + id + ", first name: " + firstName + ", last name: " + lastName);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String selectLastNameByFirstName(String inputFirstName) {
-        String query = "SELECT * FROM USERS WHERE first_name = ?";
-        String lastName = null;
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, inputFirstName);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                lastName = resultSet.getString(3);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } return lastName;
-    }
-
     public void insertSpecificUser(String firstName, String lastName) {
         String query = "INSERT INTO test_db.users (first_name, last_name) VALUES (?, ?)";
         try {
@@ -135,6 +103,21 @@ public class SQLHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String selectLastNameByFirstName(String inputFirstName) {
+        String query = "SELECT * FROM USERS WHERE first_name = ?";
+        String lastName = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, inputFirstName);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                lastName = resultSet.getString(3);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } return lastName;
     }
 
     public int searchByFirstName(String name) {
